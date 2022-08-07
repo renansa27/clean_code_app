@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tut_project/views/forgot_password/forgot_password.dart';
 import 'package:tut_project/views/home/home.dart';
 import 'package:tut_project/views/login/login.dart';
-import 'package:tut_project/views/onBoarding/on_boarding.dart';
+import 'package:tut_project/views/onBoarding/onboarding.dart';
 import 'package:tut_project/views/register/register.dart';
 import 'package:tut_project/views/resources/strings_manager.dart';
 import 'package:tut_project/views/splash/splash.dart';
