@@ -14,4 +14,5 @@ class SvgAssets {
   static const leftArrow = "$svgPath/left_arrow.svg";
   static const solidCircle = "$svgPath/solid_circle.svg";
   static const unfilledCircle = "$svgPath/unfilled_circle.svg";
+  static const mainLogo = "$svgPath/main_logo.svg";
 }
