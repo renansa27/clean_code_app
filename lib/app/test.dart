@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tut_project/app/app.dart';
+import 'package:tut_project/views/common/log.dart';
 
 class Test extends StatelessWidget {
   const Test({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class Test extends StatelessWidget {
   }
 
   void getAppState() {
-    print(MyApp.instance.appState); // 10
+    log.d(MyApp.instance.appState); // 10
   }
 
   @override

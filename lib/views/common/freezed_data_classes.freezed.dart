@@ -98,7 +98,7 @@ class __$$_LoginObjectCopyWithImpl<$Res> extends _$LoginObjectCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LoginObject with DiagnosticableTreeMixin implements _LoginObject {
+class _$_LoginObject implements _LoginObject {
   _$_LoginObject(this.email, this.password);
 
   @override
@@ -107,17 +107,8 @@ class _$_LoginObject with DiagnosticableTreeMixin implements _LoginObject {
   final String password;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'LoginObject(email: $email, password: $password)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'LoginObject'))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('password', password));
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 import 'package:tut_project/domain/model/model.dart';
 import 'package:tut_project/domain/usecase/login_usecase.dart';
 import 'package:tut_project/views/base/base_view_model.dart';
@@ -44,7 +44,7 @@ class LoginViewModel extends BaseViewModel
 
   @override
   login() async {
-    (await _loginUseCase.execute(
+    (await _loginUseCase.loginWithEmail(
       LoginUseCaseInput(
         loginObject.email,
         loginObject.password,
@@ -129,3 +129,4 @@ abstract class LoginViewModelOutputs {
   Stream<bool> get outputIsEmailValid;
   Stream<bool> get outputIsPasswordValid;
 }
+ */
