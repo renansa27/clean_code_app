@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:tut_project/data/data_source/remote_data_source.dart';
 import 'package:tut_project/data/network/error_handler.dart';
 import 'package:tut_project/data/network/network_info.dart';

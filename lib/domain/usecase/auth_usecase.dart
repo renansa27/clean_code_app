@@ -6,11 +6,11 @@ import 'package:tut_project/domain/model/model.dart';
 import 'package:tut_project/domain/repository/repository.dart';
 import 'package:tut_project/domain/usecase/base_usecase.dart';
 
-class LoginUseCase implements BaseUseCase<LoginUseCaseInput, User> {
+class AuthUseCase implements BaseUseCase<LoginUseCaseInput, User> {
   final Repository _repository;
 
-  LoginUseCase(this._repository);
-  //TODO Deprecated using auth_usecase now
+  AuthUseCase(this._repository);
+
   @override
   Future<Either<Failure, User>> loginWithEmail(LoginUseCaseInput input) async {
     //To get the device name, identifier and OS version use this.
@@ -22,5 +22,5 @@ class LoginUseCase implements BaseUseCase<LoginUseCaseInput, User> {
 class LoginUseCaseInput {
   String email;
   String password;
-  LoginUseCaseInput(this.email, this.password);
+  LoginUseCaseInput({required this.email, required this.password});
 }

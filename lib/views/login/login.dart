@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tut_project/domain/model/model.dart';
-import 'package:tut_project/views/login/login_viewmodel.dart';
-import 'package:tut_project/views/resources/assets_manager.dart';
-import 'package:tut_project/views/resources/color_manager.dart';
-import 'package:tut_project/views/resources/values_manager.dart';
+import 'package:tut_project/views/common/log.dart';
+import 'package:tut_project/views/login/cubit/auth_cubit.dart';
+import 'package:tut_project/views/login/cubit/auth_state.dart';
 
 //import '../../data/external/external.dart';
 
@@ -17,90 +15,126 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final LoginViewModel _loginViewModel = LoginViewModel(GetIt.instance());
+  //final LoginViewModel _loginViewModel = LoginViewModel(GetIt.instance());
+  //final AuthCubit _authCubit = GetIt.instance<AuthCubit>();
   final TextEditingController _emailController =
       TextEditingController(text: '');
   final TextEditingController _passwordController =
       TextEditingController(text: '');
   final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _bind();
-  }
-
-  void _bind() {
-    _loginViewModel.start();
-    _emailController
-        .addListener(() => _loginViewModel.setEmail(_emailController.text));
-    _passwordController.addListener(
-        () => _loginViewModel.setPassword(_passwordController.text));
-  }
+  bool _isObscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     return _getContentWidget();
   }
 
+  void setObscurePassword() {
+    setState(() {
+      _isObscurePassword = !_isObscurePassword;
+    });
+  }
+
   Widget _getContentWidget() {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Login Page'),
-        ),
-        body: Container(
-          padding: const EdgeInsets.only(top: AppPadding.p100),
-          color: ColorManager.white,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    SvgAssets.mainLogo,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        )
-        /* body: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            OutlinedButton(
-              child: const Text('Get All Users'),
-              onPressed: () async {
-                await _loginViewModel.login();
-              },
-            ),
-            StreamBuilder<User?>(
-                stream: _loginViewModel.user,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData && !snapshot.hasError) {
-                    return Column(
-                      children: [
-                        Text("Id: ${snapshot.data?.id.toString() ?? 'No id'}"),
-                        Text("Nome: ${snapshot.data?.nome ?? 'No name'}"),
-                        Text("E-mail: ${snapshot.data?.email ?? 'No email'}"),
-                        Text(
-                            "Age: ${snapshot.data?.age.toString() ?? 'No age'}"),
-                      ],
-                    );
-                  } else {
-                    return const Text("Error");
+      appBar: AppBar(
+        title: const Text('Login Page'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              BlocConsumer<AuthCubit, AuthState>(
+                //bloc: _authCubit,
+                listener: (context, state) {
+                  if (state.error != null) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(state.error!)));
                   }
+                },
+                builder: ((context, state) {
+                  AuthCubit authCubit = context.watch<AuthCubit>();
+                  return Column(
+                    children: [
+                      TextField(
+                        controller: _emailController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'E-mail',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: _isObscurePassword,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: 'Password',
+                          suffixIcon: IconButton(
+                            onPressed: setObscurePassword,
+                            icon: const Icon(Icons.remove_red_eye),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      OutlinedButton(
+                        child: const Text('Login'),
+                        onPressed: () async {
+                          await authCubit.loginWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                      Text(state.user?.nome ?? ''),
+                      Text(state.user?.age.toString() ?? ''),
+                    ],
+                  );
+
+                  /* if (state is LoginLoading) {
+                    return const Text('Logando...');
+                  }
+                  if (state is LoginSuccess) {
+                    return Center(
+                      child: Column(
+                        children: [
+                          Text(state.user?.nome ?? 'Sem Nome'),
+                          Text(state.user?.email ?? 'Sem email'),
+                          Text(state.user?.age.toString() ?? 'Sem Idade'),
+                        ],
+                      ),
+                    );
+                  }
+                  if (state is LoginError) {
+                    return Center(
+                      child: Column(
+                        children: [
+                          Text(state?.nome ?? 'Sem Nome'),
+                          Text(state?.email ?? 'Sem email'),
+                          Text(state?.age.toString() ?? 'Sem Idade'),
+                        ],
+                      ),
+                    );
+                  }
+                  return const Text('Sem estado emitido'); */
                 }),
-          ],
+              ),
+            ],
+          ),
         ),
-      ), */
-        );
+      ),
+    );
   }
 
   @override
   void dispose() {
-    _loginViewModel.dispose();
+    //_loginViewModel.dispose();
     super.dispose();
   }
 }

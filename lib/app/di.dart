@@ -11,48 +11,59 @@ import 'package:tut_project/data/network/network_info.dart';
 import 'package:tut_project/data/repository/repository_impl.dart';
 import 'package:tut_project/domain/repository/repository.dart';
 import 'package:tut_project/domain/usecase/login_usecase.dart';
-import 'package:tut_project/views/login/login_viewmodel.dart';
+import 'package:tut_project/views/login/cubit/auth_cubit.dart';
+//import 'package:tut_project/views/login/login_viewmodel.dart';
 
-final instance = GetIt.instance;
+final getItInstance = GetIt.instance;
 
 Future<void> initAppModule() async {
   //Shared Preferences instance
   final sharedPrefs = await SharedPreferences.getInstance();
-  instance.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
+  getItInstance.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
 
   //AppPreferences instance
-  instance.registerLazySingleton<AppPreferences>(
-      () => AppPreferences(instance<SharedPreferences>()));
+  getItInstance.registerLazySingleton<AppPreferences>(
+      () => AppPreferences(getItInstance<SharedPreferences>()));
 
   //Network info
-  instance.registerLazySingleton<NetworkInfo>(
+  getItInstance.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(InternetConnectionChecker()));
 
   // Dio factory instance
-  instance.registerLazySingleton<DioFactory>(
-      () => DioFactory(instance<AppPreferences>()));
+  getItInstance.registerLazySingleton<DioFactory>(
+      () => DioFactory(getItInstance<AppPreferences>()));
 
   //App Service client
-  Dio dioInstance = await instance<DioFactory>().getDio();
-  instance.registerLazySingleton<AppServiceClient>(
+  Dio dioInstance = await getItInstance<DioFactory>().getDio();
+  getItInstance.registerLazySingleton<AppServiceClient>(
       () => AppServiceClient(dioInstance, baseUrl: Constant.baseUrl));
 
   // Remote Data Source
-  instance.registerLazySingleton<RemoteDataSource>(
-      () => RemoteDataSourceImp(instance<AppServiceClient>()));
+  getItInstance.registerLazySingleton<RemoteDataSource>(
+      () => RemoteDataSourceImp(getItInstance<AppServiceClient>()));
 
   // Repository
-  instance.registerLazySingleton<Repository>(() =>
-      RepositoryImpl(instance<RemoteDataSource>(), instance<NetworkInfo>()));
+  getItInstance.registerLazySingleton<Repository>(() => RepositoryImpl(
+      getItInstance<RemoteDataSource>(), getItInstance<NetworkInfo>()));
 }
 
 // It will be added on Routes Manager, so every time that I call login page it will create an instance
 initLoginModule() {
   // Check whether an instance of LoginUseCase is already created before create a new LoginUseCase instance.
   if (!GetIt.I.isRegistered<LoginUseCase>()) {
+    getItInstance.registerFactory<LoginUseCase>(
+        () => LoginUseCase(getItInstance<Repository>()));
+    /* instance.registerFactory<LoginViewModel>(
+        () => LoginViewModel(instance<LoginUseCase>())); */
+    //Bloc AuthCubit
+    getItInstance.registerFactory<AuthCubit>(
+        () => AuthCubit(getItInstance<LoginUseCase>()));
+  }
+
+  /* if (!GetIt.I.isRegistered<LoginUseCase>()) {
     instance.registerFactory<LoginUseCase>(
         () => LoginUseCase(instance<Repository>()));
-    instance.registerFactory<LoginViewModel>(
-        () => LoginViewModel(instance<LoginUseCase>()));
-  }
+    instance
+        .registerFactory<AuthCubit>(() => AuthCubit(instance<LoginUseCase>()));
+  } */
 }
