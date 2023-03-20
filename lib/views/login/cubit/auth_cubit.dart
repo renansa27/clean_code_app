@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tut_project/domain/model/model.dart';
 import 'package:tut_project/domain/usecase/login_usecase.dart';
 import 'package:tut_project/views/common/log.dart';
 //import 'package:tut_project/views/common/freezed_data_classes.dart';
@@ -16,7 +14,10 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    emit(state.rebuild((b) => b..email));
+    //emit(state.rebuild((b) => b..email));
+    emit(state.rebuild(
+      (b) => b..isLoading = true,
+    ));
     try {
       (await _authService.loginWithEmail(
         LoginUseCaseInput(
@@ -29,13 +30,15 @@ class AuthCubit extends Cubit<AuthState> {
           //Left -> Failure
           log.d(failure.message),
           emit(state.rebuild(
-            (b) => b..error = failure.message,
+            (b) => b
+              ..error = failure.message
+              ..isLoading = false,
           )),
         },
         (user) => {
           //Right -> Success
           emit(state.rebuild((b) => b..user = user)),
-          //print(data.nome),
+          log.d(user.nome),
         },
       );
       //getUser();

@@ -17,11 +17,7 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
   @override
   Iterable<Object?> serialize(Serializers serializers, AuthState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'hasSentMagicLink',
-      serializers.serialize(object.hasSentMagicLink,
-          specifiedType: const FullType(bool)),
-    ];
+    final result = <Object?>[];
     Object? value;
     value = object.isLoading;
     if (value != null) {
@@ -92,10 +88,6 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
           result.error = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'hasSentMagicLink':
-          result.hasSentMagicLink = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
-          break;
       }
     }
 
@@ -114,8 +106,6 @@ class _$AuthState extends AuthState {
   final String? email;
   @override
   final String? error;
-  @override
-  final bool hasSentMagicLink;
 
   factory _$AuthState([void Function(AuthStateBuilder)? updates]) =>
       (new AuthStateBuilder()..update(updates))._build();
@@ -125,12 +115,8 @@ class _$AuthState extends AuthState {
       this.successfullyReset,
       this.user,
       this.email,
-      this.error,
-      required this.hasSentMagicLink})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        hasSentMagicLink, r'AuthState', 'hasSentMagicLink');
-  }
+      this.error})
+      : super._();
 
   @override
   AuthState rebuild(void Function(AuthStateBuilder) updates) =>
@@ -147,8 +133,7 @@ class _$AuthState extends AuthState {
         successfullyReset == other.successfullyReset &&
         user == other.user &&
         email == other.email &&
-        error == other.error &&
-        hasSentMagicLink == other.hasSentMagicLink;
+        error == other.error;
   }
 
   @override
@@ -159,7 +144,6 @@ class _$AuthState extends AuthState {
     _$hash = $jc(_$hash, user.hashCode);
     _$hash = $jc(_$hash, email.hashCode);
     _$hash = $jc(_$hash, error.hashCode);
-    _$hash = $jc(_$hash, hasSentMagicLink.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -171,8 +155,7 @@ class _$AuthState extends AuthState {
           ..add('successfullyReset', successfullyReset)
           ..add('user', user)
           ..add('email', email)
-          ..add('error', error)
-          ..add('hasSentMagicLink', hasSentMagicLink))
+          ..add('error', error))
         .toString();
   }
 }
@@ -201,14 +184,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   String? get error => _$this._error;
   set error(String? error) => _$this._error = error;
 
-  bool? _hasSentMagicLink;
-  bool? get hasSentMagicLink => _$this._hasSentMagicLink;
-  set hasSentMagicLink(bool? hasSentMagicLink) =>
-      _$this._hasSentMagicLink = hasSentMagicLink;
-
-  AuthStateBuilder() {
-    AuthState._initializeBuilder(this);
-  }
+  AuthStateBuilder();
 
   AuthStateBuilder get _$this {
     final $v = _$v;
@@ -218,7 +194,6 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
       _user = $v.user;
       _email = $v.email;
       _error = $v.error;
-      _hasSentMagicLink = $v.hasSentMagicLink;
       _$v = null;
     }
     return this;
@@ -245,9 +220,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
             successfullyReset: successfullyReset,
             user: user,
             email: email,
-            error: error,
-            hasSentMagicLink: BuiltValueNullFieldError.checkNotNull(
-                hasSentMagicLink, r'AuthState', 'hasSentMagicLink'));
+            error: error);
     replace(_$result);
     return _$result;
   }

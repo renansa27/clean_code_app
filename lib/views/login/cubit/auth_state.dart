@@ -5,8 +5,6 @@ import 'package:tut_project/domain/model/model.dart';
 part 'auth_state.g.dart';
 
 abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
-  static Serializer<AuthState> get serializer => _$authStateSerializer;
-
   bool? get isLoading;
 
   bool? get successfullyReset;
@@ -17,7 +15,7 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   String? get error;
 
-  bool get hasSentMagicLink;
+  //bool get hasSentMagicLink;
 
   AuthState._();
 
@@ -26,11 +24,12 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
   factory AuthState.init() {
     return AuthState((b) => b..isLoading = false);
   }
+  static Serializer<AuthState> get serializer => _$authStateSerializer;
 
-  static void _initializeBuilder(AuthStateBuilder b) => b
+  /* static void _initializeBuilder(AuthStateBuilder b) => b
     ..isLoading = false
     ..hasSentMagicLink = false
-    ..successfullyReset = false;
+    ..successfullyReset = false; */
 }
 
 /* abstract class AuthState {}

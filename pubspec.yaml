@@ -54,6 +54,7 @@ dependencies:
   equatable: ^2.0.5
   formz: ^0.5.0+1
   built_value: ^8.4.4
+  lottie: ^2.3.0
 
 dev_dependencies:
   flutter_test:
