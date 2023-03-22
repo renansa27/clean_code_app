@@ -38,20 +38,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _getContentWidget() {
     return BlocConsumer<AuthCubit, AuthState>(
+      bloc: _authCubit,
       listener: (context, state) {
-        log.d('Teste listener');
-        if (state.error != null) {
+        //log.d('Teste listener');
+        if (_authCubit.state.error != null) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.error!)));
+              .showSnackBar(SnackBar(content: Text(_authCubit.state.error!)));
+          _authCubit.cleanErrorMessage();
         }
       },
       builder: (context, state) {
-        log.d('Teste builder');
+        //log.d('Teste builder');
         return CommonScaffold(
           appBar: AppBar(
             title: const Text('Login Page'),
           ),
-          isLoading: state.isLoading,
+          isLoading: _authCubit.state.isLoading,
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(50.0),

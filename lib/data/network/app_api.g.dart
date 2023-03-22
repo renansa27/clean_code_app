@@ -10,7 +10,7 @@ part of 'app_api.dart';
 
 class _AppServiceClient implements AppServiceClient {
   _AppServiceClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://192.168.0.118:8080/api';
+    baseUrl ??= 'http://10.5.150.125:8080/api';
   }
 
   final Dio _dio;

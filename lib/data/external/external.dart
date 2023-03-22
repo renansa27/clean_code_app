@@ -3,7 +3,8 @@ import 'package:tut_project/data/responses/responses.dart';
 
 class ExternalUserAccess {
   //localhost
-  static const String baseUrl = 'http://192.168.0.118:8080/api/users';
+  //E Em casa = 192.168.0.118; Trabalho = 10.5.150.125
+  static const String baseUrl = 'http://10.5.150.125:8080/api/users';
   final Dio httpConnection = Dio();
 
   Future<UserResponse> createUser({required UserResponse user}) async {

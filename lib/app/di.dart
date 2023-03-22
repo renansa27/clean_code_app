@@ -45,6 +45,8 @@ Future<void> initAppModule() async {
   // Repository
   getItInstance.registerLazySingleton<Repository>(() => RepositoryImpl(
       getItInstance<RemoteDataSource>(), getItInstance<NetworkInfo>()));
+
+  initLoginModule();
 }
 
 // It will be added on Routes Manager, so every time that I call login page it will create an instance

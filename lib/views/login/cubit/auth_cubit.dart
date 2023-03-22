@@ -37,7 +37,11 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (user) => {
           //Right -> Success
-          emit(state.rebuild((b) => b..user = user)),
+          emit(state.rebuild(
+            (b) => b
+              ..user = user
+              ..isLoading = false,
+          )),
           log.d(user.nome),
         },
       );
@@ -45,6 +49,10 @@ class AuthCubit extends Cubit<AuthState> {
     } on Exception catch (e) {
       emit(state.rebuild((b) => b..error = e.toString()));
     }
+  }
+
+  void cleanErrorMessage() {
+    emit(state.rebuild((b) => b..error = null));
   }
 }
 
