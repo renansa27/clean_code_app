@@ -58,7 +58,7 @@ initLoginModule() {
     /* instance.registerFactory<LoginViewModel>(
         () => LoginViewModel(instance<LoginUseCase>())); */
     //Bloc AuthCubit
-    getItInstance.registerFactory<AuthCubit>(
+    getItInstance.registerLazySingleton<AuthCubit>(
         () => AuthCubit(getItInstance<LoginUseCase>()));
   }
 

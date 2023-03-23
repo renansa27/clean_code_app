@@ -10,6 +10,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this._authService) : super(AuthState.init());
 
+  String getUserName() {
+    return state.user?.nome ?? '';
+  }
+
   Future<void> loginWithEmailAndPassword({
     required String email,
     required String password,
@@ -53,6 +57,16 @@ class AuthCubit extends Cubit<AuthState> {
 
   void cleanErrorMessage() {
     emit(state.rebuild((b) => b..error = null));
+  }
+
+  void logout() {
+    emit(state.rebuild(
+      (b) => b
+        ..email = null
+        ..error = null
+        ..isLoading = false
+        ..user = null,
+    ));
   }
 }
 

@@ -5,6 +5,7 @@ import 'package:tut_project/views/common/log.dart';
 import 'package:tut_project/views/common/widgets/common_scaffold.dart';
 import 'package:tut_project/views/login/cubit/auth_cubit.dart';
 import 'package:tut_project/views/login/cubit/auth_state.dart';
+import 'package:tut_project/views/resources/routes_manager.dart';
 
 //import '../../data/external/external.dart';
 
@@ -45,6 +46,9 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(_authCubit.state.error!)));
           _authCubit.cleanErrorMessage();
+        }
+        if (_authCubit.state.user != null) {
+          _goHomePage();
         }
       },
       builder: (context, state) {
@@ -103,6 +107,10 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
+  }
+
+  void _goHomePage() {
+    Navigator.pushReplacementNamed(context, Routes.homeRoute);
   }
 
   @override

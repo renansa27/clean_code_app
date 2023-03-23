@@ -32,14 +32,14 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _goNext() {
-    Navigator.pushReplacementNamed(context, Routes.onBoardingRoute);
+    Navigator.pushReplacementNamed(context, Routes.loginRoute);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: ColorManager.primary,
-      body: const Center(
+      body: Center(
         child: Image(
           image: AssetImage(ImageAssets.splashImage),
         ),
