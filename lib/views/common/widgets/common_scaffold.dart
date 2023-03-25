@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tut_project/views/resources/animation_assets_manager.dart';
+import 'package:tut_project/views/resources/assets_manager.dart';
 import 'package:tut_project/views/resources/color_manager.dart';
 
 class CommonScaffold extends StatelessWidget {
@@ -17,6 +19,7 @@ class CommonScaffold extends StatelessWidget {
   final bool extendBody;
   final bool avoidBottomOnSafeArea;
   final Widget? bgImage;
+  final bool? hasGovLogo;
 
   const CommonScaffold({
     Key? key,
@@ -33,8 +36,9 @@ class CommonScaffold extends StatelessWidget {
     this.extendBody = false,
     this.avoidBottomOnSafeArea = true,
     this.bgImage,
+    this.hasGovLogo = false,
   }) : super(key: key);
-
+//ceGovLogo
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +46,7 @@ class CommonScaffold extends StatelessWidget {
       backgroundColor: backgroundColor,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       bottomNavigationBar: bottomNavigationBar,
-      body: _buildBody(),
+      body: _buildBody(context),
       extendBody: extendBody,
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,
@@ -50,20 +54,50 @@ class CommonScaffold extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return SafeArea(
       bottom: avoidBottomOnSafeArea,
       child: Stack(
         children: [
           if (bgImage != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: bgImage!,
-            ),
+            hasGovLogo!
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              SvgAssets.ceGovLogo,
+                              fit: BoxFit.fill,
+                              alignment: Alignment.bottomCenter,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          height: 100,
+                          child: bgImage!,
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox(
+                    height: 100,
+                    child: bgImage!,
+                  ),
           body,
           if (isLoading!)
-            Container(
-              color: ColorManager.arsenic.withOpacity(0.5),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: ColorManager.arsenic.withOpacity(0.5),
+              ),
               child: Center(
                 child: LottieBuilder.asset(
                     AnimationAssetsManager.loadingAnimation),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tut_project/views/common/log.dart';
 import 'package:tut_project/views/common/widgets/common_scaffold.dart';
 import 'package:tut_project/views/login/cubit/auth_cubit.dart';
 import 'package:tut_project/views/login/cubit/auth_state.dart';
+import 'package:tut_project/views/resources/assets_manager.dart';
 import 'package:tut_project/views/resources/routes_manager.dart';
-
-//import '../../data/external/external.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
     return BlocConsumer<AuthCubit, AuthState>(
       bloc: _authCubit,
       listener: (context, state) {
-        //log.d('Teste listener');
         if (_authCubit.state.error != null) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(_authCubit.state.error!)));
@@ -52,44 +52,61 @@ class _LoginPageState extends State<LoginPage> {
         }
       },
       builder: (context, state) {
-        //log.d('Teste builder');
         return CommonScaffold(
           appBar: AppBar(
-            title: const Text('Login Page'),
+            toolbarHeight: 0,
+          ),
+          avoidBottomOnSafeArea: false,
+          resizeToAvoidBottomInset: false,
+          hasGovLogo: true,
+          bgImage: SvgPicture.asset(
+            SvgAssets.sesaBottom,
+            fit: BoxFit.fitWidth,
           ),
           isLoading: _authCubit.state.isLoading,
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextField(
-                    controller: _emailController,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'E-mail',
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: ListView(
+              children: [
+                const SizedBox(
+                  height: 30,
+                ),
+                SvgPicture.asset(SvgAssets.ceGovLogo),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  controller: _emailController,
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'E-mail',
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: _isObscurePassword,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      onPressed: setObscurePassword,
+                      icon: const Icon(Icons.remove_red_eye),
                     ),
                   ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: _isObscurePassword,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Password',
-                      suffixIcon: IconButton(
-                        onPressed: setObscurePassword,
-                        icon: const Icon(Icons.remove_red_eye),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  OutlinedButton(
-                    child: const Text('Login'),
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: 400,
+                  height: 50,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.black),
+                    child: const Text('ACESSAR'),
                     onPressed: () async {
                       await _authCubit.loginWithEmailAndPassword(
                         email: _emailController.text,
@@ -97,11 +114,27 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                   ),
-                  const SizedBox(height: 30),
-                  Text(state.user?.nome ?? ''),
-                  Text(state.user?.age.toString() ?? ''),
-                ],
-              ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blue,
+                  ),
+                  child: const Text(
+                    'CADASTRE-SE',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  ),
+                  onPressed: () async {
+                    log.d('Ir para tela de cadastro');
+                    /* await _authCubit.loginWithEmailAndPassword(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    ); */
+                  },
+                ),
+                const SizedBox(height: 30),
+                Text(state.user?.nome ?? ''),
+                Text(state.user?.age.toString() ?? ''),
+              ],
             ),
           ),
         );

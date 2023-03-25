@@ -58,7 +58,7 @@ initLoginModule() {
     /* instance.registerFactory<LoginViewModel>(
         () => LoginViewModel(instance<LoginUseCase>())); */
     //Bloc AuthCubit
-    // It was registered lazy because the app was trying to get a new instance once we call the class AuthCubit, because it will init call the AuthState init() method
+    // It was registered lazy because the app was trying to get a new instance once we call the class AuthCubit, because it will call the AuthState init() method
     getItInstance.registerLazySingleton<AuthCubit>(
         () => AuthCubit(getItInstance<LoginUseCase>()));
   }

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tut_project/domain/usecase/login_usecase.dart';
 import 'package:tut_project/views/common/log.dart';
-//import 'package:tut_project/views/common/freezed_data_classes.dart';
 import 'package:tut_project/views/login/cubit/auth_state.dart';
 
 // 1

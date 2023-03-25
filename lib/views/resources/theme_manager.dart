@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tut_project/views/resources/color_manager.dart';
 import 'package:tut_project/views/resources/font_manager.dart';
 import 'package:tut_project/views/resources/styles_manager.dart';
@@ -18,7 +19,7 @@ ThemeData getApplicationTheme() {
       secondary: ColorManager.grey,
     ),
     // Card view theme
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       color: ColorManager.white,
       shadowColor: ColorManager.grey,
       elevation: AppSize.s4,
@@ -26,18 +27,23 @@ ThemeData getApplicationTheme() {
 
     // App bar theme
     appBarTheme: AppBarTheme(
-      centerTitle: true,
-      color: ColorManager.primary,
-      elevation: AppSize.s4,
-      shadowColor: ColorManager.primaryOpacity70,
-      titleTextStyle: getRegularStyle(
-        fontColor: ColorManager.white,
-        fontSize: FontSize.s16,
-      ),
-    ),
+        centerTitle: true,
+        color: ColorManager.primary,
+        elevation: AppSize.s4,
+        shadowColor: ColorManager.primaryOpacity70,
+        titleTextStyle: getRegularStyle(
+          fontColor: ColorManager.white,
+          fontSize: FontSize.s16,
+        ),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.green,
+          //systemNavigationBarColor: Colors.black,
+          systemNavigationBarDividerColor: Colors.black,
+          systemNavigationBarIconBrightness: Brightness.dark,
+        )),
     // Button theme
-    buttonTheme: ButtonThemeData(
-      shape: const StadiumBorder(),
+    buttonTheme: const ButtonThemeData(
+      shape: StadiumBorder(),
       disabledColor: ColorManager.grey1,
       buttonColor: ColorManager.primary,
       splashColor: ColorManager.primaryOpacity70,
@@ -46,7 +52,7 @@ ThemeData getApplicationTheme() {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
           textStyle: getRegularStyle(fontColor: ColorManager.white),
-          primary: ColorManager.primary,
+          backgroundColor: ColorManager.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               AppSize.s12,
@@ -55,15 +61,15 @@ ThemeData getApplicationTheme() {
     ),
     // Text theme
     textTheme: TextTheme(
-      headline1: getSemiBoldStyle(
+      displayLarge: getSemiBoldStyle(
           fontColor: ColorManager.darkGrey, fontSize: FontSize.s16),
-      subtitle1: getMediumStyle(
+      titleMedium: getMediumStyle(
           fontColor: ColorManager.lightGrey, fontSize: FontSize.s14),
-      subtitle2: getMediumStyle(
+      titleSmall: getMediumStyle(
           fontColor: ColorManager.primary, fontSize: FontSize.s14),
-      caption: getRegularStyle(
+      bodySmall: getRegularStyle(
           fontColor: ColorManager.grey1, fontSize: FontSize.s12),
-      bodyText1:
+      bodyLarge:
           getRegularStyle(fontColor: ColorManager.grey, fontSize: FontSize.s12),
     ),
     //Input decoration Theme (text form field)

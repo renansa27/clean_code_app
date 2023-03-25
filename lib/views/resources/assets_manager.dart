@@ -20,4 +20,6 @@ class SvgAssets {
   static const envelopeOpen = "$svgPath/envelope_open.svg";
   static const envelopeOpenError = "$svgPath/envelope_open_error.svg";
   static const envelopeClosed = "$svgPath/envelope_closed.svg";
+  static const sesaBottom = "$svgPath/sesa_bottom.svg";
+  static const ceGovLogo = "$svgPath/ce_gov.svg";
 }
